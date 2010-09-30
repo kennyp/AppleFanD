@@ -1,6 +1,6 @@
 Description
 ===========
-**keyboard_bright** is a command line program that adjust the keyboard brightness for Apple MacBooks running GNU/Linux
+**applefand** is a command line program/daemon that adjust the fan speed for Apple MacBooks running GNU/Linux
 
 Compatibility
 =============
