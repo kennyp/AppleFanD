@@ -1,0 +1,15 @@
+#!/bin/bash
+
+PREFIX=/usr/local
+
+for arg in $@ ; do
+    case "$arg" in
+        --prefix*)
+            PREFIX=$(echo $arg | cut -d= -f2)
+            ;;
+    esac
+done
+
+PREFIX=$(echo $PREFIX | sed -e 's/\//\\\//g')
+
+cat Makefile.in | sed -e "s/@PREFIX@/$PREFIX/" > Makefile
