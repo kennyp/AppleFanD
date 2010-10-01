@@ -108,7 +108,8 @@ int main(int argc, char *argv[]) {
 
         if ((bump && (temp - threshold < GAP))
                 || (!bump && (threshold - temp < GAP))) {
-            printf("Inside Gap\n");
+            if (!daemonize)
+                printf("Inside Gap\n");
             continue;
         }
 
@@ -119,11 +120,13 @@ int main(int argc, char *argv[]) {
         if (bump) {
             temp = (temp + STEP < MAX_SPEED) ? (temp + STEP) : MAX_SPEED;
             fprintf(fp, "%i", temp);
-            printf("Going Up to %i!\n", temp);
+            if (!daemonize)
+                printf("Going Up to %i!\n", temp);
         } else {
             temp = (temp - STEP > MIN_SPEED) ? (temp - STEP) : MIN_SPEED;
             fprintf(fp, "%i", temp);
-            printf("Going Down to %i!\n", temp);
+            if (!daemonize)
+                printf("Going Down to %i!\n", temp);
         }
         fclose(fp);
     }

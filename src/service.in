@@ -1,0 +1,56 @@
+#!/bin/bash
+
+RETVAL=0
+prog="applefand"
+prefix=@PREFIX@
+exec="$prefix/bin/$prog"
+lockfile="/var/lock/subsys/$prog"
+PREFIX=$PREFIX:$prefix
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+start() {
+    [ -x $exec ] || exit 5
+    echo -n $"Starting $prog: "
+    daemon $exec -d
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile
+}
+
+stop() {
+    echo -n "Stopping $prog: "
+    if [ -n "$(ps aux | grep $prog | grep -v grep | awk '{ print $2 }' | head -n 1)" ] ; then
+        killproc $exec
+        RETVAL=3
+    else
+        failure $"Stopping $prog"
+    fi
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && rm -f $lockfile
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?
+

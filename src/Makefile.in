@@ -1,0 +1,26 @@
+PREFIX=@PREFIX@
+
+all: src/main.c
+		@gcc src/main.c -o bin/applefand
+
+static: src/main.c
+		@gcc -static src/main.c -o bin/applefand
+
+doinstall:
+	@cp bin/applefand $(PREFIX)/bin
+	@chown root:root $(PREFIX)/bin/applefand
+	@chmod ug+s $(PREFIX)/bin/applefand
+	@cp bin/service /etc/init.d/applefand
+	@chown root:root /etc/init.d/applefand
+	@chmod 755 /etc/init.d/applefand
+
+install-static: static doinstall
+
+install: all doinstall
+
+clean:
+	@rm -f bin/applefand
+
+.PHONY: install
+.PHONY: install-static
+.PHONY: clean
