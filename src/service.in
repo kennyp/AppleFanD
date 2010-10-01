@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+# applefand         Start/Stop the apple fan daemon
+#
+# chkconfig: 2345 50 50
+# description: applefand monitors cup temperature and adjust fan speed
+# accordingly
 
 RETVAL=0
 prog="applefand"

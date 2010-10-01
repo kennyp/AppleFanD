@@ -13,6 +13,7 @@ doinstall:
 	@cp bin/service /etc/init.d/applefand
 	@chown root:root /etc/init.d/applefand
 	@chmod 755 /etc/init.d/applefand
+	@chkconfig --add applefand
 
 install-static: static doinstall
 
