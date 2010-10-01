@@ -3,7 +3,7 @@
 # applefand         Start/Stop the apple fan daemon
 #
 # chkconfig: 2345 50 50
-# description: applefand monitors cup temperature and adjust fan speed
+# description: applefand monitors CPU temperature and adjust fan speed
 # accordingly
 
 RETVAL=0
@@ -43,6 +43,22 @@ restart() {
     start
 }
 
+rh_status() {
+    pid="$(ps aux | grep $exec | grep -v grep | awk '{ print $2 }' | head -n 1)"
+    if [ -n "$pid" ] ; then
+        echo $"$prog (pid $pid) is running..."
+        retval=0
+    else
+        echo $"$prog is stopped"
+        retval=3
+    fi
+    return $retval
+}
+
+rh_status_q() {
+    rh_status >/dev/null 2>&1
+}
+
 case "$1" in
     start)
         start
@@ -53,8 +69,11 @@ case "$1" in
     restart)
         restart
         ;;
+    status)
+        rh_status
+        ;;
     *)
-        echo $"Usage: $0 {start|stop|restart}"
+        echo $"Usage: $0 {start|stop|restart|status}"
         exit 1
 esac
 
