@@ -12,5 +12,6 @@ done
 
 PREFIX=$(echo $PREFIX | sed -e 's/\//\\\//g')
 
+mkdir -p bin
 cat src/Makefile.in | sed -e "s/@PREFIX@/$PREFIX/" > Makefile
 cat src/service.in | sed -e "s/@PREFIX@/$PREFIX/" > bin/service
